@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Path@Penn — Primary Cart</title>
+<style>
+  :root{
+    --penn-blue:#011F5B; --penn-red:#990000;
+    --ink:#0f172a; --muted:#6b7280; --line:#e5e7eb;
+    --bg:#f5f7fb; --panel:#fff; --btn:#0b5bd3;
+    --radius:12px; --radius-lg:24px; --shadow:0 12px 32px rgba(0,0,0,.08);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:var(--font);color:var(--ink);line-height:1.35}
+
+  /* iPhone frame */
+  .phone{width:390px;height:844px;margin:24px auto;background:#fff;border-radius:28px;overflow:hidden;
+         box-shadow:var(--shadow);border:1px solid #eceff5;display:flex;flex-direction:column}
+
+  /* bars */
+  .topbar{background:var(--penn-blue);color:#fff;padding:10px 14px 12px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;gap:8px;align-items:center;font-weight:700;letter-spacing:.2px}
+  .brand img{width:24px;height:24px;object-fit:contain}
+  .subbar{background:var(--penn-red);color:#fff;padding:10px 12px;display:flex;align-items:center;gap:10px}
+  .subbar .course{font-weight:700;flex:1}
+  .icon{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center}
+  .icon img{width:22px;height:22px;object-fit:contain}
+
+  /* content */
+  .scroll{flex:1;overflow:auto}
+  .notice{margin:12px 16px;background:#E6F1FF;color:#1d3f91;padding:10px 12px;border-radius:10px;font-size:13px}
+
+  .header-utility{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .meter{color:#64748b}
+  .auto{color:#0b5bd3;font-weight:700;text-decoration:none;cursor:pointer;position:relative}
+
+  /* tiny menu for Auto-Rank */
+  .tiny-menu{position:absolute;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid var(--line);border-radius:10px;
+             box-shadow:0 10px 20px rgba(0,0,0,.08);overflow:hidden;opacity:0;transform:translateY(-4px);
+             pointer-events:none;transition:opacity .16s ease, transform .16s ease;z-index:12}
+  .tiny-menu.open{opacity:1;transform:translateY(0);pointer-events:auto}
+  .tiny-menu a{display:flex;gap:8px;align-items:center;padding:10px 12px;font-size:14px;color:#0b5bd3;text-decoration:none;white-space:nowrap}
+  .tiny-menu a:hover{background:#f6f7fb}
+
+  /* list */
+  .list{display:flex;flex-direction:column;gap:8px;padding:10px 10px 16px}
+  .card{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .rank{width:24px;text-align:right;font-weight:800;color:#64748b}
+  .title{margin:0 0 4px 0;font-weight:700}
+  .sub{margin:0;color:#64748b;font-size:13px}
+
+  .actions{padding:16px;display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line)}
+  .btn{padding:14px 16px;border-radius:12px;border:1px solid #e5e7eb;background:#f7f7fb;font-weight:700;text-align:center}
+  .btn.ok{background:var(--btn);color:#fff;border:none}
+
+  /* info sheet */
+  .sheet-overlay{position:absolute;inset:0;background:rgba(0,0,0,.22);opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:20}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-top-left-radius:18px;border-top-right-radius:18px;
+         transform:translateY(100%);transition:transform .22s ease;box-shadow:0 -8px 24px rgba(0,0,0,.18);z-index:21}
+  .sheet.open{transform:translateY(0)}
+  .sheet-overlay.open{opacity:1;pointer-events:auto}
+  .sheet .grab{width:44px;height:5px;background:#d7dbe5;border-radius:3px;margin:10px auto}
+  .sheet .content{padding:14px 16px 18px}
+  .sheet h3{margin:0 0 8px 0;font-size:16px}
+  .sheet p{margin:0 0 10px 0;color:#374151;font-size:14px}
+  .close{display:block;margin:10px 16px 16px auto;padding:10px 14px;border-radius:10px;border:1px solid #e5e7eb;background:#f7f7fb;font-weight:700}
+</style>
+</head>
+<body>
+  <main class="phone">
+    <!-- Top -->
+    <div class="topbar">
+      <div class="brand">
+        <img src="assets/image 1.png" alt="Penn shield" />
+        Penn
+      </div>
+      <div class="welcome">Welcome, Alok</div>
+    </div>
+
+    <div class="subbar">
+      <div class="icon" aria-hidden="true"><img src="assets/image 3.png" alt=""></div>
+      <div class="course">Primary Cart</div>
+      <div class="icon" aria-hidden="true"><img src="assets/homeicon 2.png" alt="Home"></div>
+      <div class="icon" aria-hidden="true"><img src="assets/image 2.png" alt="Link"></div>
+    </div>
+
+    <div class="scroll">
+      <div class="notice">STAT 9700 — Mathematical Statistics <b>added</b> to your Primary cart.</div>
+
+      <div class="header-utility">
+        <div class="meter">Registration is open · Total Credits: 4.5</div>
+        <div class="auto" id="auto-toggle">Auto-Rank (AI)
+          <div class="tiny-menu" id="auto-menu">
+            <a href="#"><span>👀</span> See Preview</a>
+            <a href="#"><span>⭐</span> Why this order?</a>
+            <a href="#" id="info-open"><span>ℹ️</span> Learn more</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="list">
+        <div class="card">
+          <div class="rank">1.</div>
+          <div>
+            <p class="title">CIS 4000 — Senior Project</p>
+            <p class="sub">001 · TBA · Loo/Smith</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="rank">2.</div>
+          <div>
+            <p class="title">CIS 4120 — Human-Computer Interaction</p>
+            <p class="sub">401 · MW 1:45–3:13p · Head/Shi</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="rank">3.</div>
+          <div>
+            <p class="title">CIS 6010 — GPU Programming</p>
+            <p class="sub">001 · MW 12:00–1:29p · J. Devietti</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="rank">4.</div>
+          <div>
+            <p class="title">ESE 6510 — Physical Intelligence</p>
+            <p class="sub">001 · TR 10:15–11:44a · A. Loquercio</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="rank">5.</div>
+          <div>
+            <p class="title">STAT 9700 — Mathematical Statistics</p>
+            <p class="sub">001 · TR 1:45–3:14p · Staff</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn ok" type="button">Submit Schedule</button>
+        <a class="btn" role="button" href="index.html">Back to Course</a>
+      </div>
+    </div>
+
+    <!-- Info bottom sheet -->
+    <div class="sheet-overlay" id="sheet-overlay" hidden></div>
+    <aside class="sheet" id="sheet" aria-modal="true" role="dialog" aria-labelledby="sheet-title">
+      <div class="grab"></div>
+      <div class="content">
+        <h3 id="sheet-title">Auto-Rank (AI)</h3>
+        <p>Auto-Rank suggests an ordering using your <b>cart</b>, current <b>demand/waitlist</b>,
+           <b>schedule conflicts</b>, and <b>degree-audit</b> progress.</p>
+        <p>You’ll get a <b>preview</b> and can <b>edit or pin</b> courses before applying.
+           No changes happen until you confirm.</p>
+      </div>
+      <button class="close" id="sheet-close">Got it</button>
+    </aside>
+  </main>
+
+<script>
+  // Auto-Rank tiny menu
+  const toggle = document.getElementById('auto-toggle');
+  const menu = document.getElementById('auto-menu');
+  toggle.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    menu.classList.toggle('open');
+  });
+  document.addEventListener('click', (e)=>{
+    if(!e.target.closest('#auto-toggle')) menu.classList.remove('open');
+  });
+
+  // Info sheet
+  const overlay = document.getElementById('sheet-overlay');
+  const sheet   = document.getElementById('sheet');
+  const infoBtn = document.getElementById('info-open');
+  const closeBtn= document.getElementById('sheet-close');
+
+  function openSheet(){
+    overlay.hidden = false;
+    requestAnimationFrame(()=>{
+      overlay.classList.add('open');
+      sheet.classList.add('open');
+    });
+  }
+  function closeSheet(){
+    overlay.classList.remove('open');
+    sheet.classList.remove('open');
+    sheet.addEventListener('transitionend', ()=> overlay.hidden = true, {once:true});
+  }
+
+  infoBtn.addEventListener('click', (e)=>{ e.preventDefault(); openSheet(); });
+  closeBtn.addEventListener('click', closeSheet);
+  overlay.addEventListener('click', closeSheet);
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeSheet(); });
+</script>
+</body>
+</html>
